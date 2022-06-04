@@ -19,19 +19,21 @@ public class ObstaculoBlackhole : MonoBehaviour
         
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        foreach (ContactPoint contact in collision.contacts)
-        {
-            Rigidbody ball_rb = collision.rigidbody;
-            gm.TeleportBlackhole(secondBlackhole.transform.position);
-            Vector3 dir = new Vector3(contact.normal.x, contact.normal.y, contact.normal.z);
-            ball_rb.AddForce(dir * boostStrength, ForceMode.Impulse);
-        }
-    }
+    //void OnCollisionStay(Collision collision)
+    //{
+    //    foreach (ContactPoint contact in collision.contacts)
+    //    {
+    //        Time.timeScale = 0.2f;
+    //        gm.TeleportBlackhole(secondBlackhole.transform.position, secondBlackhole.transform.right);
+    //        //Vector3 dir = new Vector3(contact.normal.x, -contact.normal.y, contact.normal.z);
+    //        //ball_rb.AddForce(dir * boostStrength, ForceMode.Impulse);
+    //        //Debug.DrawRay(secondBlackhole.transform.position, dir, Color.green, 2f);
+    //    }
+    //}
 
-    void OnTriggerEnter(Collider col)
+    void OnTriggerStay(Collider col)
     {
-        gm.TeleportBlackhole(secondBlackhole.transform.position);
+        Time.timeScale = 0.8f;
+        gm.TeleportBlackhole(secondBlackhole.transform.position, secondBlackhole.transform.right);
     }
 }

@@ -15,6 +15,7 @@ public class GatilhoPinball : MonoBehaviour
     public Color fullColor;
 
     private float timer = 0;
+    bool canShoot = true;
 
     private MeshRenderer my_meshrenderer;
 
@@ -28,6 +29,7 @@ public class GatilhoPinball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(canShoot);
         if (Input.GetKey(KeyCode.Space))
         {
             timer += Time.deltaTime;
@@ -46,12 +48,25 @@ public class GatilhoPinball : MonoBehaviour
         
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            ball = GameObject.FindGameObjectWithTag("Player");
-            ball.GetComponent<Rigidbody>().AddForce(transform.up * curr_ImpulseForce, ForceMode.Impulse);
+            if (canShoot)
+            {
+                ball = GameObject.FindGameObjectWithTag("Player");
+                ball.GetComponent<Rigidbody>().AddForce(transform.up * curr_ImpulseForce, ForceMode.Impulse);
+            }
             curr_ImpulseForce = MinImpulseForce;
             my_meshrenderer.material.color = emptyColor;
             my_meshrenderer.material.SetColor("_EmissionColor", emptyColor);
             timer = 0;
         }
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        canShoot = true;
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        canShoot = false;
     }
 }

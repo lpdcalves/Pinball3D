@@ -9,6 +9,7 @@ public class GameMaster : MonoBehaviour
     public GameObject pinballSpawner;
     public GameObject pinballPrefab;
     public GameObject floatingPointsPrefab;
+    public GameObject bloqueadorCanaleta;
 
     private GameObject current_pinball;
 
@@ -37,6 +38,7 @@ public class GameMaster : MonoBehaviour
             timerBlackhole += Time.deltaTime;
             if (timerBlackhole > 1)
             {
+                Time.timeScale = 1f;
                 canUseBlackhole = true;
                 timerBlackhole = 0;
             }
@@ -44,8 +46,10 @@ public class GameMaster : MonoBehaviour
 
         if (numBalls > 0)
         {
-            if (current_pinball.transform.position.y < -1 || current_pinball.transform.position.y > 100)
+            if (current_pinball.transform.position.y < 6 || current_pinball.transform.position.y > 100)
             {
+                bloqueadorCanaleta.GetComponent<Collider>().isTrigger = true;
+
                 GameObject temp = current_pinball;
                 Destroy(temp);
 
@@ -67,12 +71,14 @@ public class GameMaster : MonoBehaviour
         points.GetComponentInChildren<TextMeshPro>().fontSize = sizeText;
     }
 
-    public void TeleportBlackhole(Vector3 nextPosition)
+    public void TeleportBlackhole(Vector3 nextPosition, Vector3 dir)
     {
         if (canUseBlackhole)
         {
             canUseBlackhole = false;
             current_pinball.transform.position = nextPosition;
+            current_pinball.GetComponent<Rigidbody>().AddForce(dir * 20f, ForceMode.Impulse);
+            Debug.DrawRay(nextPosition, dir, Color.green, 2f);
         }
     }
 }
