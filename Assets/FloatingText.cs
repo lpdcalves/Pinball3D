@@ -4,16 +4,8 @@ using UnityEngine;
 
 public class FloatingText : MonoBehaviour
 {
-    public float lifeTime = 0.6f;
-    // Start is called before the first frame update
-    void Start()
+    public void DestroyParent()
     {
-        Destroy(gameObject, lifeTime);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Destroy(gameObject.transform.parent.gameObject);
     }
 }

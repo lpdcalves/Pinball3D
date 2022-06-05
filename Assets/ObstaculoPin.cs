@@ -13,11 +13,13 @@ public class ObstaculoPin : MonoBehaviour
     private bool blinkColor = false;
     private float timer = 0;
     private Color my_color;
+    private AudioSource hitSound;
 
     void Start()
     {
         gm = FindObjectOfType<GameMaster>();
         my_color = GetComponent<MeshRenderer>().material.color;
+        hitSound = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -48,11 +50,13 @@ public class ObstaculoPin : MonoBehaviour
             }
         }
         gm.AddScore(pinScore);
+        hitSound.Play();
     }
     void OnTriggerEnter(Collider col)
     {
         blinkColor = true;
         timer = 0;
         gm.AddScore(pinScore);
+        hitSound.Play();
     }
 }

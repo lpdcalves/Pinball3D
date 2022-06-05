@@ -17,6 +17,7 @@ public class GameMaster : MonoBehaviour
     public Text scoreText;
     public int minFloatingPointsSize = 8;
     public int maxFloatingPointsSize = 16;
+    public bool useSlowTime = false;
 
     private int numBalls = 5;
     public Text numBallsText;
@@ -36,9 +37,9 @@ public class GameMaster : MonoBehaviour
         if (!canUseBlackhole)
         {
             timerBlackhole += Time.deltaTime;
-            if (timerBlackhole > 1)
+            if (timerBlackhole > 0.8)
             {
-                Time.timeScale = 1f;
+                if (useSlowTime) { Time.timeScale = 1f; }
                 canUseBlackhole = true;
                 timerBlackhole = 0;
             }
@@ -75,10 +76,15 @@ public class GameMaster : MonoBehaviour
     {
         if (canUseBlackhole)
         {
+            if (Random.Range(0f, 1f) > 0.5f)
+            {
+                float randomTurn = Random.Range(-0.1f, 0.1f);
+                dir += new Vector3(randomTurn, randomTurn, randomTurn);
+            }
             canUseBlackhole = false;
             current_pinball.transform.position = nextPosition;
-            current_pinball.GetComponent<Rigidbody>().AddForce(dir * 20f, ForceMode.Impulse);
-            Debug.DrawRay(nextPosition, dir, Color.green, 2f);
+            current_pinball.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            current_pinball.GetComponent<Rigidbody>().AddForce(dir * 25f, ForceMode.Impulse);
         }
     }
 }

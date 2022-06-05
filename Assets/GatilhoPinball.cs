@@ -29,7 +29,6 @@ public class GatilhoPinball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(canShoot);
         if (Input.GetKey(KeyCode.Space))
         {
             timer += Time.deltaTime;

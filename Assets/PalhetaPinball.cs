@@ -12,12 +12,14 @@ public class PalhetaPinball : MonoBehaviour
     public float strengthModifier = 1f;
     public float maxHitStrength = 50f;
 
+    AudioSource soundEffect;
     Rigidbody my_rb;
     KeyCode ActivatingKey;
     HingeJoint hinge;
 
     void Start()
     {
+        soundEffect = GetComponent<AudioSource>();
         my_rb = GetComponent<Rigidbody>();
         hinge = GetComponent<HingeJoint>();
         hinge.useSpring = true;
@@ -37,10 +39,13 @@ public class PalhetaPinball : MonoBehaviour
         spring.spring = SpringStrength;
         spring.damper = SpringDamper;
 
-        if(Input.GetKey(ActivatingKey))
+        if (Input.GetKeyDown(ActivatingKey))
+        {
+            soundEffect.Play();
+        }
+        if (Input.GetKey(ActivatingKey))
         {
             spring.targetPosition = PressedAngle;
-            
         }
         else
         {
