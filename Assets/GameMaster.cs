@@ -10,8 +10,10 @@ public class GameMaster : MonoBehaviour
     public GameObject pinballPrefab;
     public GameObject floatingPointsPrefab;
     public GameObject bloqueadorCanaleta;
+    public AudioSource gameoverEffect;
 
     private GameObject current_pinball;
+    private MySceneManager sceneManager;
 
     private int score;
     public Text scoreText;
@@ -24,9 +26,12 @@ public class GameMaster : MonoBehaviour
 
     float timerBlackhole = 0f;
     bool canUseBlackhole = true;
+    bool endGame = false;
+    float endGameTimer = 0;
 
     void Start()
     {
+        sceneManager = FindObjectOfType<MySceneManager>();
         current_pinball = Instantiate(pinballPrefab, pinballSpawner.transform.position, Quaternion.identity);
         scoreText.text = "Score: 0";
         numBallsText.text = "Balls: " + numBalls;
@@ -45,7 +50,7 @@ public class GameMaster : MonoBehaviour
             }
         }
 
-        if (numBalls > 0)
+        if (current_pinball != null)
         {
             if (current_pinball.transform.position.y < 6 || current_pinball.transform.position.y > 100)
             {
@@ -54,11 +59,24 @@ public class GameMaster : MonoBehaviour
                 GameObject temp = current_pinball;
                 Destroy(temp);
 
-                current_pinball = Instantiate(pinballPrefab, pinballSpawner.transform.position, Quaternion.identity);
-                numBalls -= 1;
-                numBallsText.text = "Balls: " + numBalls;
+                if (numBalls > 0)
+                {
+                    current_pinball = Instantiate(pinballPrefab, pinballSpawner.transform.position, Quaternion.identity);
+                    numBalls -= 1;
+                    numBallsText.text = "Balls: " + numBalls;
+                }
+                else
+                {
+                    endGame = true;
+                    gameoverEffect.Play();
+                }
             }
         }
+
+        if (endGameTimer < 3 && endGame)
+            endGameTimer += Time.deltaTime;
+        if (endGameTimer > 3)
+            sceneManager.EndGame();
     }
 
     public void AddScore(int scoreToAdd)

@@ -17,6 +17,7 @@ public class GatilhoPinball : MonoBehaviour
     private float timer = 0;
     bool canShoot = true;
 
+    private AudioSource soundEffect;
     private MeshRenderer my_meshrenderer;
 
     // Start is called before the first frame update
@@ -24,6 +25,7 @@ public class GatilhoPinball : MonoBehaviour
     {
         curr_ImpulseForce = MinImpulseForce;
         my_meshrenderer = GetComponent<MeshRenderer>();
+        soundEffect = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -52,6 +54,8 @@ public class GatilhoPinball : MonoBehaviour
                 ball = GameObject.FindGameObjectWithTag("Player");
                 ball.GetComponent<Rigidbody>().AddForce(transform.up * curr_ImpulseForce, ForceMode.Impulse);
             }
+            soundEffect.volume = curr_ImpulseForce / MaxImpulseForce;
+            soundEffect.Play();
             curr_ImpulseForce = MinImpulseForce;
             my_meshrenderer.material.color = emptyColor;
             my_meshrenderer.material.SetColor("_EmissionColor", emptyColor);
