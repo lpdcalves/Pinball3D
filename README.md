@@ -5,7 +5,7 @@ This game was developed as part of a GameEngine class at [IMD/UFRN](https://www.
 
 You can watch gameplay footage here: [Pinball W.A.V.E. - Unity Game](https://www.youtube.com/watch?v=0ioFpujUB1A)
 
-![Menu 1](/Imgs/menu1.png?raw=true)
-![Menu 2](/Imgs/menu2.png?raw=true)
-![GamePlay](/Imgs/game1.png?raw=true)
-![Credits](/Imgs/credits1.png?raw=true)
+<img src="/Imgs/menu1.png" width="600">
+<img src="/Imgs/menu2.png" width="600">
+<img src="/Imgs/game1.png" width="600">
+<img src="/Imgs/credits1.png" width="600">
